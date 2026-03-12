@@ -1,47 +1,77 @@
 import { useEffect, useState } from "react";
 import PomoTimeSet from "./PomoTimeSet";
+import PomoTimeDisplay from "./PomoTimeDisplay";
+import type { DisplayState } from "../extend";
+
+const defaultSessionTime = 25 * 60; // 25 minutes in seconds
+const defaultBreakTime = 5 * 60; // 5 minutes in seconds
 
 const max = 60 * 60; // 60 minutes in an hour, 60 seconds in a minute
 const min = 60; // 1 minute in seconds
 const interval = 60; // 60 second is 1 minute
 
-const defaultSessionTime = 25 * 60; // 25 minutes in seconds
-const defaultBreakTime = 5 * 60; // 5 minutes in seconds
-
 const PomodoroTimer = () => {
   const [sessionTime, setSessionTime] = useState(defaultSessionTime);
   const [breakTime, setBreakTime] = useState(defaultBreakTime);
-  const [displayState, setDisplayState] = useState<"session" | "break">(
-    "session",
-  ); // can only be <session or break>
-  const [isRunning, setIsRunning] = useState(false); // to track if the timer is running or not
+  
+  //instead of creating multiple useState we just create one useState and have an object that holds all the state value
+  const [displayState, setDisplayState] = useState<DisplayState>({
+    time: sessionTime,
+    timeType: "Session",
+    isRunning: false  // to track if the timer is running or not
+  })
+
 
   const startStop = () => {
     //start and stop the timer
     console.log("start/stop button clicked");
+    setDisplayState((prev) => ({
+      ...prev,
+      isRunning: !prev.isRunning  //same like setIsRunning(!isRunning);  //if true, set to false. if false, set to true
+    }));
   };
 
-  const reset = () => {};
-
-  const toggelTimer = () => {
-    //toggle between session and break
-    setIsRunning(!isRunning);  //if true, set to false. if false, set to true
-  };
-
-  const [time, setTime] = useState(1500);
+  const reset = () => {
+    //reset the timer to default values
+    setSessionTime(defaultSessionTime);
+    setBreakTime(defaultBreakTime);
+    setDisplayState({
+      time: defaultSessionTime,
+      timeType: "Session",
+      isRunning: false
+    })
+  }
 
   useEffect(() => {
-    if (!isRunning) return; // if timer is not running, do nothing
+    let timer: number;                      // to store the timer ID so we can clear it later
+    if (!displayState.isRunning) return;    // if timer is not running, do nothing
 
-    const timer = setInterval(() => {       //setInterval is js function that runs a function every specified number of milliseconds
-      setTime((prev) => prev - 1);          // decrease the time by 1 second
+    timer = setInterval(() => {             //setInterval is js function that runs a function every specified number of milliseconds    
+      setDisplayState((prev) => ({
+        ...prev,
+        time: prev.time - 1}                // decrease the time by 1 second  
+      ));      
     }, 1000);                               // 1 second = 1000 milliseconds
 
-    return () => clearInterval(timer); // clear the timer when component unmounts or when isRunning changes
-  }, [isRunning]); // run this effect when isRunning changes
+    return () => clearInterval(timer);      // clear the timer when component unmounts or when isRunning changes
+  }, [displayState.isRunning]);             // run this effect when isRunning changes
 
-  const minutes = Math.floor(time / 60);
-  const seconds = time % 60;
+  const changeSessionTime = (time: number) => {
+    if(displayState.isRunning) return;  // if timer is running, do nothing
+
+    setSessionTime(time);
+    setDisplayState({
+      time: time,
+      timeType: "Session",
+      isRunning: false
+    })
+  }
+
+  const changeBreakTime = (time: number) => {
+    if(displayState.isRunning) return;  // if timer is running, do nothing
+    setBreakTime(time);
+  }
+  
 
   return (
     <div className="container-fluid text-center">
@@ -52,7 +82,7 @@ const PomodoroTimer = () => {
           <PomoTimeSet
             time={sessionTime}
             interval={interval}
-            setTime={setSessionTime}
+            setTime={changeSessionTime}
             min={min}
             max={max}
             type="session"
@@ -64,7 +94,7 @@ const PomodoroTimer = () => {
           <PomoTimeSet
             time={breakTime}
             interval={interval}
-            setTime={setBreakTime}
+            setTime={changeBreakTime}
             min={min}
             max={max}
             type="break"
@@ -72,29 +102,7 @@ const PomodoroTimer = () => {
         </div>
       </div>
       <div className="col-md">
-        <h3>{displayState === "session" ? "Session" : "Break"}</h3>
-      </div>
-      <div className="row">
-        <div className="row-md">
-          <h3>
-            {sessionTime / 60}:{(sessionTime % 60).toString().padStart(2, "0")}
-          </h3>
-          <h1>
-            {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-          </h1>
-        </div>
-        <div className="col-md">
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              startStop();
-              toggelTimer();
-            }}
-          >
-            {isRunning ? "Stop" : "Start"}
-          </button>
-          <button className="btn btn-danger">Reset</button>
-        </div>
+        <PomoTimeDisplay displayState={displayState} startStop={startStop} reset={reset} />
       </div>
     </div>
   );
