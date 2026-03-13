@@ -4,9 +4,10 @@ interface Props {
   displayState: DisplayState; //DisplayState contains time, timeType and isRunning
   startStop: (displayState: DisplayState) => void;
   reset: () => void;
+  skip: () => void;
 }
 
-const PomoTimeDisplay = ({ displayState, startStop, reset }: Props) => {
+const PomoTimeDisplay = ({ displayState, startStop, reset, skip }: Props) => {
   return (
     <div>
       <h3>{displayState.timeType}</h3>
@@ -18,6 +19,9 @@ const PomoTimeDisplay = ({ displayState, startStop, reset }: Props) => {
         >
           {displayState.isRunning ? "Pause" : "Start"}
         </button>
+        
+        {displayState.isRunning && (<button className="btn btn-secondary" onClick={skip}> Skip </button>)}
+
         <button className="btn btn-danger" onClick={reset}>
           Reset
         </button>
