@@ -100,41 +100,47 @@ const PomodoroTimer = () => {
   };
 
   return (
-    <div className="container-fluid text-center">
-      <h2>Pomodoro Timer</h2>
-      <div className="row">
-        <div className="col-md">
-          <h3>Session</h3>
-          <PomoTimeSet
-            time={sessionTime}
-            interval={interval}
-            setTime={changeSessionTime}
-            min={min}
-            max={max}
-            type="session"
-          />
+    <div className="card p-2 container-fluid text-center">
+      <div className="card-body">
+        <h2 className="card-title">Pomodoro Timer</h2>
+
+        <div className="row">
+          <div className="col-md">
+            <h3 className="card-subtitle mb-2 text-muted">Session</h3>
+            <PomoTimeSet
+              time={sessionTime}
+              interval={interval}
+              setTime={changeSessionTime}
+              min={min}
+              max={max}
+              type="session"
+            />
+          </div>
+
+          <div className="col-md">
+            <h3 className="card-subtitle mb-2 text-muted">Break</h3>
+            <PomoTimeSet
+              time={breakTime}
+              interval={interval}
+              setTime={changeBreakTime}
+              min={min}
+              max={max}
+              type="break"
+            />
+          </div>
         </div>
 
         <div className="col-md">
-          <h3>Break</h3>
-          <PomoTimeSet
-            time={breakTime}
-            interval={interval}
-            setTime={changeBreakTime}
-            min={min}
-            max={max}
-            type="break"
+          <PomoTimeDisplay
+            displayState={displayState}
+            startStop={startStop}
+            reset={reset}
+            skip={skip}
           />
         </div>
       </div>
-      <div className="col-md">
-        <PomoTimeDisplay
-          displayState={displayState}
-          startStop={startStop}
-          reset={reset}
-          skip={skip}
-        />
-      </div>
+      
+      
     </div>
   );
 };
