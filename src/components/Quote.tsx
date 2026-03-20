@@ -48,9 +48,9 @@ const Quote = () => {
   }, []);
 
   return (
-    <div>
+    <div className="card p-2">
       {/* lofi */}
-      <div>
+      <div className="ratio ratio-16x9">
         <iframe
           width="560"
           height="315"
