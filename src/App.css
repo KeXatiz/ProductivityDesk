@@ -7,11 +7,82 @@ body {
   overflow-x: hidden;
 }
 
-.card {
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .list-group-item:hover {
   background-color: #f8f9fa;
 }
+
+h1 {
+  font-family: "Bitcount", sans-serif;
+}
+
+p,
+span,
+input {
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  background: #0f172a; /* dark navy (very comfortable) */
+  color: #e2e8f0;
+}
+
+.card {
+  background: #1e293b;
+  color: #e2e8f0;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.container {
+  padding-top:15px;
+}
+
+.form-control {
+  background: #334155;
+  color: #f1f5f9;
+  border: 1px solid #476679;
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+
+.form-control:focus {
+  border-color: #f1f5f9;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+  background: #43556e;
+}
+
+.list-group-item {
+  background-color: #334155;
+  color: #e2e8f0;
+  border: 1px solid #475569;
+}
+
+.list-group-item:hover {
+  background-color: #475569;
+}
+
+.list-group-item.completed {
+  opacity: 0.5;
+}
+
+input[type="checkbox"] {
+  accent-color: #38bdf8;
+}
+
+  /* .btn-success {
+    background-color: #22c55e;
+    border: none;
+  }
+  .btn-danger {
+    background-color: #ef4444;
+    border: none;
+  } */

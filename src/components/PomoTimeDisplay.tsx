@@ -11,7 +11,7 @@ const PomoTimeDisplay = ({ displayState, startStop, reset, skip }: Props) => {
   return (
     <div>
       <h3>{displayState.timeType}</h3>
-      <h1>{formatTime(displayState.time)}</h1>
+      <h2>{formatTime(displayState.time)}</h2>
       <div>
         <button
           className="btn btn-success"

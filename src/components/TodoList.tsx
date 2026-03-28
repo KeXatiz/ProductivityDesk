@@ -64,18 +64,32 @@ const TodoList = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {if (e.key === "Enter") addTask()}}
           />
-          <button className='btn btn-primary mb-3' onClick={addTask}>Add</button>
+          <button className='btn btn-primary mb-2 mx-2' onClick={addTask}>Add</button>
 
         </div>
         
         <ul className="list-group">
           {tasks.map((task, index) => (
-            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+            <li key={index} className={`list-group-item d-flex justify-content-between align-items-center ${task.completed ? "completed" : ""}`}>
               <div className='d-flex align-items-center w-100'>
                 <input type='checkbox' checked={task.completed} onChange={() => toggleTask(index)} className='me-2' />
 
                 {editingIndex === index ? (
-                  <input className='form-control' value={editText} onChange={(e) => setEditText(e.target.value)} onBlur={() => saveEdit(index)} onKeyDown={(e) => {if (e.key === "Enter") saveEdit(index)}}/> 
+                  <input 
+                    className='form-control' 
+                    value={editText} 
+                    autoFocus 
+                    onChange={(e) => setEditText(e.target.value)} 
+                    onBlur={() => { 
+                      if (editText.trim() === "") return; 
+                      saveEdit(index);}} 
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        if (editText.trim() === "") return;  
+                        saveEdit(index);
+                      }
+                      if (e.key === "Escape") setEditingIndex(null);
+                    }}/> 
                 ) : (
                   <span onClick={() => startEdit(index)} style={{ textDecoration: task.completed ? "line-through" : "none", color: task.completed ? "gray" : "black", cursor: "pointer" }}>
                     {task.text}
