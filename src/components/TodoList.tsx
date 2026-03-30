@@ -63,6 +63,7 @@ const TodoList = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {if (e.key === "Enter") addTask()}}
+            style={{color: "#47dbe0"}}
           />
           <button className='btn btn-primary mb-2 mx-2' onClick={addTask}>Add</button>
 
@@ -91,7 +92,7 @@ const TodoList = () => {
                       if (e.key === "Escape") setEditingIndex(null);
                     }}/> 
                 ) : (
-                  <span onClick={() => startEdit(index)} style={{ textDecoration: task.completed ? "line-through" : "none", color: task.completed ? "gray" : "black", cursor: "pointer" }}>
+                  <span onClick={() => startEdit(index)} style={{ textDecoration: task.completed ? "line-through" : "none", color: task.completed ? "gray" : "#38b0b4", cursor: "pointer" }}>
                     {task.text}
                   </span>
                 )}

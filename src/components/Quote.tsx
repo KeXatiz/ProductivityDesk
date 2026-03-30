@@ -62,7 +62,7 @@ const Quote = () => {
         ></iframe>
       </div>
       <div>
-        <h2 className="mt-1">Quote of the Day</h2>
+        <h1 className="mt-2"><u>Quote of the Day</u></h1>
 
         {quote ? (
           <p>

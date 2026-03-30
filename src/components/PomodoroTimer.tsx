@@ -103,7 +103,7 @@ const PomodoroTimer = () => {
     <div className="card p-2 h-100  ">
       <div className="card-body d-flex flex-column justify-content-center text-center">
         <div> 
-          <h2 className="card-title ">Pomodoro Timer</h2>
+          <h1 className="card-title" style={{color: '#FF6347'}}>Pomodoro</h1>
 
           <div className="row">
             <div className="col-md">
